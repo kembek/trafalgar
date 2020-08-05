@@ -1,0 +1,8 @@
+# Application dependencies
+node_modules/
+
+# Package managers locks files
+package-lock.json
+
+# Output files
+dist/
