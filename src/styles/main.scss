@@ -1,0 +1,23 @@
+$primary-light-color: #67c3f3;
+$primary-dark-color: #5a98f2;
+
+h1 {
+  color: $primary-light-color;
+  font-size: 64px;
+  text-align: center;
+  display: flex;
+}
+
+p {
+  font-size: 20px;
+  @media screen and (max-width: 767px) {
+    font-size: 15px;
+  }
+}
+
+span {
+  font-size: 30px;
+  @media screen and (max-width: 767px) {
+    font-size: 10px;
+  }
+}
