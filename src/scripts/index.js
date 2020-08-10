@@ -1,5 +1,8 @@
-// import { log } from "./log";
+import { log } from "./log";
 
-// log("Some ", "lol");
-console.log("some");
-console.log("lol");
+const greeting = (name) => `Hello, ${name}!`;
+
+log(greeting("Luke"));
+log("Hello Gulp!");
+log("Test");
+log("Test --- 2");
