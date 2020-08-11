@@ -1,7 +1,7 @@
 const gulp = require("gulp");
 
 // browser
-const sync = require("browser-sync");
+const browserSync = require("browser-sync").create();
 
 // html
 const htmlmin = require("gulp-htmlmin");
@@ -42,7 +42,7 @@ function html() {
       })
     )
     .pipe(gulp.dest(appPath.output))
-    .pipe(sync.stream());
+    .pipe(browserSync.stream());
 }
 
 exports.html = html;
@@ -73,7 +73,7 @@ function style() {
     )
     .pipe(sourcemaps.write("./"))
     .pipe(gulp.dest(appPath.output))
-    .pipe(sync.stream());
+    .pipe(browserSync.stream());
 }
 
 exports.style = style;
@@ -81,8 +81,9 @@ exports.style = style;
 function scripts() {
   return browserify({
     entries: [`${appPath.input}/scripts/index.js`],
+    debug: true,
   })
-    .transform(babelify)
+    .transform(babelify, { presets: ["@babel/preset-env"], sourceMaps: true })
     .bundle()
     .on("error", function (err) {
       console.error(err);
@@ -99,7 +100,7 @@ function scripts() {
     .pipe(terser())
     .pipe(sourcemaps.write("./"))
     .pipe(gulp.dest(appPath.output))
-    .pipe(sync.stream());
+    .pipe(browserSync.stream());
 }
 
 exports.scripts = scripts;
@@ -122,13 +123,13 @@ function media() {
       ])
     )
     .pipe(gulp.dest(`${appPath.output}/img`))
-    .pipe(sync.stream());
+    .pipe(browserSync.stream());
 }
 
 exports.media = media;
 
 function server() {
-  sync.init({
+  browserSync.init({
     ui: false,
     notify: false,
     port: 3000,
@@ -142,7 +143,7 @@ function server() {
 exports.server = server;
 
 function watch() {
-  gulp.watch(`${appPath.input}/*.html`, gulp.series(html));
+  gulp.watch(`${appPath.input}/**/*.html`, gulp.series(html));
   gulp.watch(`${appPath.input}/styles/**/*.scss`, gulp.series(style));
   gulp.watch(`${appPath.input}/scripts/**/*.js`, gulp.series(scripts));
   gulp.watch(
@@ -151,7 +152,11 @@ function watch() {
   );
 }
 
-exports.watch = watch;
+exports.watch = gulp.series(
+  clean,
+  gulp.parallel(html, style, scripts, media),
+  gulp.parallel([watch, server])
+);
 
 function clean() {
   return del(appPath.output);
@@ -161,6 +166,5 @@ exports.clean = clean;
 
 exports.default = gulp.series(
   clean,
-  gulp.parallel(html, style, scripts, media),
-  gulp.parallel([watch, server])
+  gulp.parallel(html, style, scripts, media)
 );

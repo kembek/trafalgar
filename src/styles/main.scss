@@ -1,3 +1,5 @@
+@import "button";
+
 $primary-light-color: #67c3f3;
 $primary-dark-color: #5a98f2;
 
@@ -20,4 +22,8 @@ span {
   @media screen and (max-width: 767px) {
     font-size: 10px;
   }
+}
+
+body {
+  background-color: $primary-dark-color;
 }
