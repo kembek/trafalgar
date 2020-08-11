@@ -128,6 +128,19 @@ function media() {
 
 exports.media = media;
 
+function copy() {
+  return gulp
+    .src(["src/fonts/**/*"], { base: "src" })
+    .pipe(gulp.dest("dist"))
+    .pipe(
+      browserSync.stream({
+        once: true,
+      })
+    );
+}
+
+exports.copy = copy;
+
 function server() {
   browserSync.init({
     ui: false,
@@ -154,7 +167,7 @@ function watch() {
 
 exports.watch = gulp.series(
   clean,
-  gulp.parallel(html, style, scripts, media),
+  gulp.parallel(html, style, scripts, media, copy),
   gulp.parallel([watch, server])
 );
 
@@ -166,5 +179,5 @@ exports.clean = clean;
 
 exports.default = gulp.series(
   clean,
-  gulp.parallel(html, style, scripts, media)
+  gulp.parallel(html, style, scripts, media, copy)
 );
