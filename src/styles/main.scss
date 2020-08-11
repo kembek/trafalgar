@@ -1,29 +1,35 @@
 @import "button";
+@import "fonts";
 
 $primary-light-color: #67c3f3;
 $primary-dark-color: #5a98f2;
+
+body {
+  background-color: $primary-dark-color;
+  font-family: "Roboto", sans-serif;
+}
 
 h1 {
   color: $primary-light-color;
   font-size: 64px;
   text-align: center;
   display: flex;
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
 }
 
 p {
   font-size: 20px;
+  font-family: "Roboto", sans-serif;
+  font-style: italic;
   @media screen and (max-width: 767px) {
     font-size: 15px;
   }
 }
 
 span {
-  font-size: 30px;
+  font-size: 15px;
   @media screen and (max-width: 767px) {
     font-size: 10px;
   }
-}
-
-body {
-  background-color: $primary-dark-color;
 }
